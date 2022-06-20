@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { ModuleKind } from "typescript";
-import { emitter } from '../../utils/emitter';
-import _ from 'lodash';
+import _ from "lodash";
 
 class ModalEditUser extends Component {
     constructor(props) {
@@ -16,7 +14,6 @@ class ModalEditUser extends Component {
             lastName: "",
             address: "",
         };
-     
     }
 
     componentDidMount() {
@@ -28,15 +25,15 @@ class ModalEditUser extends Component {
                 password: "hardcode",
                 firstName: user.firstName,
                 lastName: user.lastName,
-                address: user.address
-            })
+                address: user.address,
+            });
         }
-
-
     }
+
     toggle = () => {
         this.props.toggleFromParent();
     };
+
     handleOnChangeInput = (event, id) => {
         let copyState = { ...this.state };
         copyState[id] = event.target.value;
@@ -44,6 +41,7 @@ class ModalEditUser extends Component {
             ...copyState,
         });
     };
+
     checkValidateInput = () => {
         let isValid = true;
         let arrInput = ["email", "password", "firstName", "lastName", "address"];
@@ -56,12 +54,14 @@ class ModalEditUser extends Component {
         }
         return isValid;
     };
+
     handleSaveUser = () => {
         let isValid = this.checkValidateInput();
         if (isValid === true) {
             this.props.editUser(this.state);
         }
     };
+
     render() {
         return (
             <Modal
@@ -72,7 +72,6 @@ class ModalEditUser extends Component {
                 className={"modal-user-container"}
                 size="lg"
             >
-               
                 <ModalHeader
                     toggle={() => {
                         this.toggle();
