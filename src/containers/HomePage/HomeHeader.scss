@@ -61,7 +61,7 @@
       }
     }
 
-    .language-vi{
+    .language-vi {
       cursor: pointer;
       opacity: 0.2;
 
@@ -78,7 +78,7 @@
       }
     }
 
-    .language-en{
+    .language-en {
       margin: 0 10px;
       opacity: 0.2;
       cursor: pointer;
@@ -86,7 +86,7 @@
       &.active {
         opacity: 1;
 
-        span{
+        span {
           color: blue;
         }
       }
@@ -108,10 +108,8 @@
   flex-direction: column;
 
   .content-up {
-    background-image: linear-gradient(
-      rgba(126, 126, 126, 0.25),
-      rgba(255, 255, 255, 0.1)
-    );
+    background-image: linear-gradient(rgba(126, 126, 126, 0.25),
+        rgba(255, 255, 255, 0.1));
     padding-top: 15px;
     height: 65%;
 
@@ -119,7 +117,7 @@
       text-align: center;
       font-size: 30px;
       text-shadow: 1px 1px 1px #333;
-      margin:  5px;
+      margin: 5px;
       color: white;
       margin-top: 30px;
     }
@@ -158,14 +156,13 @@
 
   .content-down {
     height: 35%;
+    padding-bottom: 10px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    background-image: linear-gradient(
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.9),
-      rgba(255, 255, 255, 1)
-    );
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 1));
 
     .options {
       text-align: center;
@@ -174,7 +171,6 @@
       justify-content: center;
 
       .option-child {
-       
         width: 100px;
 
         .icon-child {
