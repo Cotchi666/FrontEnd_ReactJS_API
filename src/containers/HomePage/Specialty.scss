@@ -4,12 +4,12 @@
     border:1px solid red;
 
 
-    .specialty-container {
+    .section-container {
         margin: 0 100px;
         display:flex;
         flex-direction:column;
         
-        .specialty-header{
+        .section-header{
             height: 60px;
             margin-bottom: 30px;
             padding-top: 30px;
@@ -33,13 +33,13 @@
             }
         }
     }
-        .specialty-body{
+        .section-body{
             
-        .specialty-customize{
+        .section-customize{
             .bg-image{
                 width: 278px;
                 height: 150px;
-                background: url('../../..assets/specialty/co-xuong-khop.jpg');
+                background: url('../../..assets/section/co-xuong-khop.jpg');
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-size: cover;
