@@ -4,7 +4,7 @@ import './MedicalFacility.scss';
 import Slider from 'react-slick';
 
 
-class Specialty extends Component {
+class OutStandingDoctor extends Component {
 
 
     render() {
@@ -56,4 +56,4 @@ const mapDispatchToProps = dispatch => {
         // changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor);
