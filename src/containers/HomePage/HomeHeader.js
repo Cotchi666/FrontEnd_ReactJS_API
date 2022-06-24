@@ -12,11 +12,7 @@ class HomeHeader extends Component {
         
         this.props.changeLanguageAppRedux(language)
     }
-    changeLanguages = (language) => {
-        alert(language)
-        this.props.changeLanguageAppRedux(language)
-
-    }
+   
     render() {
         let language = this.props.language;
 
@@ -48,7 +44,7 @@ class HomeHeader extends Component {
                             </div>
                             <div className="child-content">
                                 <div><b><FormattedMessage id='homeheader.fee' /></b></div>
-                                <div className="subs-title"><FormattedMessage id='homeheader.check-healthy' /></div>
+                                <div className="subs-title"><FormattedMessage id='homeheader.check-health' /></div>
 
                             </div>
                         </div>

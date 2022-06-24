@@ -15,8 +15,8 @@ import Header from './Header/Header';
 import System from '../routes/System';
 
 import { CustomToastCloseButton } from '../components/CustomToast';
-import ConfirmModal from '../components/ConfirmModal';
-import HomeHeader from './HomePage/HomeHeader.js';
+// import ConfirmModal from '../components/ConfirmModal';
+// import HomeHeader from './HomePage/HomeHeader.js';
 import HomePage from './HomePage/HomePage.js';
 import CustomScrollbars from '../components/CustomScrollbars'
 class App extends Component {
