@@ -12,13 +12,17 @@ class About extends Component {
 
         <div  className="section-about-content">
             <div className="content-left">
-            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/j57IzkTFnT8?list=RDj57IzkTFnT8" title="G-DRAGON - THAT XX (그 XX) M/V" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="100%" height="400px" src="https://www.youtube.com/embed/j57IzkTFnT8?list=RDj57IzkTFnT8"
+             title="G-DRAGON - THAT XX (그 XX) M/V" 
+             frameborder="0" 
+             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
 
             </div>
             <div className="content-right">
                     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbvvvvvvvvvvvvvvvvvvvvvvvvvvv
             </div>
-            
+           
         </div>
 
       </div>
@@ -31,6 +35,7 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {    // changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
 };
-export default connect(mapStateToProps, mapDispatchToProps)(HomeFooter);
+};
+export default connect(mapStateToProps, mapDispatchToProps)(About);
