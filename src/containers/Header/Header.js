@@ -34,7 +34,7 @@ class Header extends Component {
                             language === LANGUAGES.VI ? "language-vi active" : "language-vi"
                         }
                     >
-                        <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VI</span>
+                        <span onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}>VI</span>
                     </span>
 
                     <span
@@ -42,7 +42,7 @@ class Header extends Component {
                             language === LANGUAGES.EN ? "language-en active" : "language-en"
                         }
                     >
-                        <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
+                        <span onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}>EN</span>
                     </span>
 
                     {/* nút logout */}
@@ -59,7 +59,7 @@ const mapStateToProps = (state) => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
-        userInfo : state.app.userInfo,
+        userInfo : state.user.userInfo,
     };
 };
 

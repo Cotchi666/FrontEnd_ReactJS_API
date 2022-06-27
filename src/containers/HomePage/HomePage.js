@@ -46,7 +46,9 @@ const mapStateToProps = (state) => {
         isLoggedIn :state.user.isLoggedIn
     };
 };
-const mapDispatchToProps = (state) => {
-    return {};
-};
+const mapDispatchToProps = (dispatch) => {
+    return {
+      // changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
+    };
+  };
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

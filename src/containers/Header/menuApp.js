@@ -27,9 +27,9 @@ export const adminMenu = [
         
     },
     { //quan li cam nang
-        name: 'menu.admin.handBook', 
+        name: 'menu.admin.handbook', 
         menus: [
-            { name: 'menu.admin.manage-handBook', link: '/system/manage-handBook' },
+            { name: 'menu.admin.manage-handbook', link: '/system/manage-handbook' },
            
         ]
         
