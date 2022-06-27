@@ -16,7 +16,7 @@ const renderApp = () => {
         <Provider store={reduxStore}>
             <IntlProviderWrapper>
                 <App persistor={persistor}/>
-            </IntlProviderWrapper>
+            </IntlProviderWrapper>                        
         </Provider>,
         document.getElementById('root')
     );

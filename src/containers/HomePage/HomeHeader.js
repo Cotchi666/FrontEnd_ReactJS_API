@@ -116,6 +116,8 @@ const mapStateToProps = (state) => {
     return {
         isLoggedIn :state.user.isLoggedIn,
         language: state.app.language,
+        userInfo : state.app.userInfo,
+
     };
 };
 const mapDispatchToProps = dispatch=> {
