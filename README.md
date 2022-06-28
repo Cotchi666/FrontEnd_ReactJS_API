@@ -6,4 +6,4 @@
 6. Thank for a visiting.
 7. Chien_DEV
 
-- Contact me if u have any problem on the project [Facebook](https://www.facebook.com/cot.toxicff/).
+- Contact me if u have any problem on the project [Facebook](https://www.facebook.com/cot.toxicff/)..
