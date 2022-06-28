@@ -12,6 +12,7 @@ class UserRedux extends Component {
     }
 
     async componentDidMount() {
+        this.props.getGenderStart();
         try {
             let res = await getAllCodeService('gender');
             if (res && res.errCode === 0) {
