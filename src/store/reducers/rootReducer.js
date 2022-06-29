@@ -3,7 +3,7 @@ import { connectRouter } from 'connected-react-router';
 
 import appReducer from "./appReducer";
 import userReducer from "./userReducer";
-
+import adminReducer from "./adminReducer"
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
@@ -27,5 +27,6 @@ export default (history) => combineReducers({
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
     
-    app: persistReducer(appPersistConfig,appReducer)
+    app: persistReducer(appPersistConfig,appReducer),
+    admin : adminReducer
 })
