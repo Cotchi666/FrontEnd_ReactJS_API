@@ -6,6 +6,7 @@ import { LANGUAGES } from "../../../utils";
 import * as actions from "../../../store/actions"
 import './UserRedux.scss';
 import 'react-image-lightbox/style.css'
+import TableManageUser from "./TableManageUser";
 class UserRedux extends Component {
     constructor(props) {
         super(props);
@@ -58,6 +59,19 @@ class UserRedux extends Component {
             this.setState({
                 positionArr: arrPositions,
                 position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : ''
+            })
+        }
+        if(prevProps.listUsers !== this.props.listUsers){
+            this.setState({
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            phone: '',
+            gender: '',
+            position: '',
+            role: '',
+            avatar: '',
             })
         }
     }
@@ -262,17 +276,18 @@ const mapStateToProps = (state) => {
         roleRedux: state.admin.roles,
         positionRedux: state.admin.positions,
         isLoadingGender: state.admin.isLoadingGender,
-
+        listUser:state.admin.users
 
     };
 };
-const mapDispatchToProps = (state) => {
+const mapDispatchToProps = (dispatch) => {
     return {
 
         genderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
-        createNewUser:(data) => dispatch(actions.createNewUser(data))
+        createNewUser:(data) => dispatch(actions.createNewUser(data)),
+        fetchUserRedux:()=> dispatch(actions.fetchAllUserStart())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);
