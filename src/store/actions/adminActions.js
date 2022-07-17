@@ -81,7 +81,7 @@ export const createNewUser = (data) => {
             if (res && res.errCode === 0) {
                 toast.success("Create a new user succeed!")
                 dispatch(saveUserSuccess())
-                dispatch(fetchAllUserStart())
+                dispatch(fetchAllUsersStart())
             }
             else {
                 dispatch(saveUserFailed());
@@ -100,28 +100,30 @@ export const saveUserFailed =()=>({
     type :actionTypes.CREATE_USER_FAILED
 })
 
-export const fetchAllUserStart =()=>{
+export const fetchAllUsersStart =()=>{
     return async (dispatch, getState)=>{
         try{
             let res = await getAllUsers("All");
-            if(res && res.errCode ===0){
-                dispatch(fetchAllUserSuccess(res.users.reverse()))
+            if(res && res.errCode === 0){
+                dispatch(fetchAllUsersSuccess(res.users.reverse()))
             }else{
                 toast.error("Fetch all users error")
+                dispatch(fetchAllUsersFailed())
+
             }
         }catch(e){
             toast.error("Fetch all users error");
-            dispatch(fetchAllUserSuccess(res.users.reverse()))
+            dispatch(fetchAllUsersFailed())
             console.log('fetchAllUserFailed error',e)
         }
     }
 }
-export const fetchAllUserSuccess = (data)=>({
+export const fetchAllUsersSuccess = (data)=>({
     type:actionTypes.FETCH_ALL_USER_SUCCESS,
     users:data
 })
 
-export const fetchAllUserFailed = ()=>({
+export const fetchAllUsersFailed = ()=>({
     type:actionTypes.FETCH_ALL_USER_FAILED,
     
 })
@@ -133,7 +135,7 @@ export const deleteAUser = (userId)=>{
                 toast.error("Delete the user succeed");
                 dispatch(deleteUserSuccess());
 
-                dispatch(fetchAllUserStart());
+                dispatch(fetchAllUsersStart());
             }else{
                 toast.error("Delete the user error")
                 dispatch(deleteUserFailed());

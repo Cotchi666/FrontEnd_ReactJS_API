@@ -5,8 +5,11 @@ import { getAllCodeService } from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
 import * as actions from "../../../store/actions"
 import './UserRedux.scss';
+import Lightbox from "react-image-lightbox";
 import 'react-image-lightbox/style.css'
 import TableManageUser from "./TableManageUser";
+
+
 class UserRedux extends Component {
     constructor(props) {
         super(props);
@@ -128,7 +131,7 @@ class UserRedux extends Component {
     }
     onChangeInput = (event, id)=>{
         let copyState = {...this.state}
-        copyState[i] = event.target.value;
+        copyState[id] = event.target.value;
         this.setState({
             ...copyState
         })
@@ -141,7 +144,7 @@ class UserRedux extends Component {
         let language = this.props.language;
         let isGetGenders = this.props.isLoadingGender;
 
-        let {email, password, firstName,lastName, role, avatar} = this.state;
+        let {email, password, firstName,lastName, role, avatar,phone,address} = this.state;
 
         return (
             <div className="user-redux-container">
@@ -153,7 +156,7 @@ class UserRedux extends Component {
                         <div className="row">
 
                             <div className="col-12 my-3"><FormattedMessage id="manage-user.add" /></div>
-                            <div className="col-12">{isGenders === true ? 'Loading genders' : ' '}
+                            <div className="col-12">{isGetGenders === true ? 'Loading genders' : ' '}
 
                             </div>
                             <div className="col-3">
@@ -249,13 +252,15 @@ class UserRedux extends Component {
 
 
 
-                            <div className="col-12 mt-3">
+                            <div className="col-12 my-3">
                                 <button className="btn btn-primary"
                                 onClick={()=> this.handleSaveUser()}>
                                     <FormattedMessage id="manage-user.save" />
                                 </button>
                             </div>
-
+                             <div className="col-12 mb-5">
+                                <TableManageUser/>
+                                </div>                   
 
                         </div>
                     </div>
@@ -287,7 +292,7 @@ const mapDispatchToProps = (dispatch) => {
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
         createNewUser:(data) => dispatch(actions.createNewUser(data)),
-        fetchUserRedux:()=> dispatch(actions.fetchAllUserStart())
+        fetchUserRedux:()=> dispatch(actions.fetchAllUsersStart())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);

@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FormattedMessage } from 'react-intl';
-import { getAllCodeService } from "../../../services/userService";
-import { LANGUAGES } from "../../../utils";
 import * as actions from "../../../store/actions"
 import './TableManageUser.scss';
-import 'react-image-lightbox/style.css'
+
+
 class TableManageUser extends Component {
     constructor(props) {
         super(props);
@@ -84,11 +82,11 @@ const mapStateToProps = (state) => {
 
     };
 };
-const mapDispatchToProps = (state) => {
+const mapDispatchToProps = dispatch => {
     return {
 
-        fetchUserRedux: () => dispatch(actions.fetchAllUserStart()),
-        deleteAUserRedux: () => dispatch(actions.deleteAUser(id)),
+        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
+        deleteAUserRedux: (id) => dispatch(actions.deleteAUser(id)),
        
     };
 };
