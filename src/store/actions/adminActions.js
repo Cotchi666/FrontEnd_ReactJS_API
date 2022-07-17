@@ -114,14 +114,14 @@ export const fetchAllUsersStart =()=>{
         }catch(e){
             toast.error("Fetch all users error");
             dispatch(fetchAllUsersFailed())
-            console.log('fetchAllUserFailed error',e)
+            console.log('fetchAllUsersFailed error',e)
         }
     }
 }
 export const fetchAllUsersSuccess = (data)=>({
     type:actionTypes.FETCH_ALL_USER_SUCCESS,
-    users:data
-})
+    users: data
+}) 
 
 export const fetchAllUsersFailed = ()=>({
     type:actionTypes.FETCH_ALL_USER_FAILED,

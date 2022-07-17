@@ -109,8 +109,8 @@ class UserRedux extends Component {
             address: this.state.address,
             phone: this.state.phone,
             gender: this.state.gender,
-            roleId: this.state.roleId,
-            positionId: this.state.positionId,
+            roleId: this.state.role,
+            positionId: this.state.position,
 
         })
     }
@@ -144,7 +144,7 @@ class UserRedux extends Component {
         let language = this.props.language;
         let isGetGenders = this.props.isLoadingGender;
 
-        let {email, password, firstName,lastName, role, avatar,phone,address} = this.state;
+        let {email, password, firstName,lastName,phone,address, gender,position,role, avatar} = this.state;
 
         return (
             <div className="user-redux-container">
@@ -248,10 +248,6 @@ class UserRedux extends Component {
                                 </div>
 
                             </div>
-
-
-
-
                             <div className="col-12 my-3">
                                 <button className="btn btn-primary"
                                 onClick={()=> this.handleSaveUser()}>
@@ -288,11 +284,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
 
-        genderStart: () => dispatch(actions.fetchGenderStart()),
+        getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
         createNewUser:(data) => dispatch(actions.createNewUser(data)),
         fetchUserRedux:()=> dispatch(actions.fetchAllUsersStart())
     };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);

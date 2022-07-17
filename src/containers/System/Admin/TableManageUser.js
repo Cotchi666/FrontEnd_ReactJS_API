@@ -8,21 +8,20 @@ class TableManageUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userRedux: [],
+            usersRedux: [],
 
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.props.fetchUserRedux();
-
-
     }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.listUsers !== this.props.listUsers) {
-            let arrGenders = this.props.listUsers
+            
             this.setState({
-                userRedux: this.props.listUsers,
+                usersRedux: this.props.listUsers,
             })
         }
 
@@ -35,7 +34,8 @@ class TableManageUser extends Component {
     }
 
     render() {
-        let arrUsers = this.state.userRedux;
+        let arrUsers = this.state.usersRedux;
+        console.log("check ",this.state.usersRedux )
         return (
             <table id="TableManageUser">
                 <tbody>
@@ -76,7 +76,7 @@ class TableManageUser extends Component {
         );
     }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         listUsers: state.admin.users
 

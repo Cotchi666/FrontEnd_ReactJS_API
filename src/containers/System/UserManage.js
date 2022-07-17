@@ -122,7 +122,7 @@ class UserManage extends Component {
                     />
                 }
 
-                <div className="title text-center"> Manage users with Chien</div>
+                <div className="title text-center"> Manage users with Chien ne</div>
                 <div className="mx-1">
                     <button
                         className="btn btn-primary px-3"
