@@ -19,7 +19,7 @@ class TableManageUser extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.listUsers !== this.props.listUsers) {
-            
+
             this.setState({
                 usersRedux: this.props.listUsers,
             })
@@ -33,9 +33,13 @@ class TableManageUser extends Component {
 
     }
 
+    handdleEEditUser = (user) => {
+        this.props.handleEditUserFromParentKey(user)
+    }
+
     render() {
         let arrUsers = this.state.usersRedux;
-        console.log("check ",this.state.usersRedux )
+        console.log("check ", this.state.usersRedux)
         return (
             <table id="TableManageUser">
                 <tbody>
@@ -48,29 +52,32 @@ class TableManageUser extends Component {
 
                     </tr>
                     {arrUsers && arrUsers.length > 0 &&
-                        arrUsers.map((item, index)=>{
-                    return(
-                    <tr key={index}>
+                        arrUsers.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item.email}</td>
+                                <td>{item.firstName}</td>
+                                <td>{item.lastName}</td>
+                                <td>{item.address}</td>
+                                <td>
+                                  <button
+                                    onClick={() => this.handleEEditUser(item)}
+                                    className="btn-edit"
+                                  >
+                                    <i className="fas fa-pencil-alt"></i>
+                                  </button>
 
-
-                        <td>{item.email}</td>
-                        <td>{item.firstName}</td>
-                        <td>{item.lastName}</td>
-                        <td>{item.address}</td>
-                        <td>
-                            <button className="btn-edit"><i className="fas fa-pencil-alt"></i></button>
-                            <button onClick={() => this.handleDeleteUser(item)}
-
-                                className="btn-delete"
-                            ><i className="fas fa-trash"> </i>
-
-                            </button>
-                        </td>
-
-                    </tr>
-                    )
-                })
-                }
+                                  <button
+                                    onClick={() => this.handleDeleteUser(item)}
+                                    className="btn-delete"
+                                  >
+                                    <i className="fas fa-trash"> </i>
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                        })
+                    }
                 </tbody>
             </table>
         );
@@ -87,7 +94,7 @@ const mapDispatchToProps = dispatch => {
 
         fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
         deleteAUserRedux: (id) => dispatch(actions.deleteAUser(id)),
-       
+
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TableManageUser);
