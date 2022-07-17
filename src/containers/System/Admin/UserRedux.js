@@ -139,13 +139,14 @@ class UserRedux extends Component {
 
     render() {
         let genders = this.state.genderArr;
-        let roles = this.props.roleArr;
-        let positions = this.props.positionArr;
+        let roles = this.state.roleArr;
+        let positions = this.state.positionArr;
+
         let language = this.props.language;
         let isGetGenders = this.props.isLoadingGender;
 
         let {email, password, firstName,lastName,phone,address, gender,position,role, avatar} = this.state;
-
+        console.log('check role ',this.state)
         return (
             <div className="user-redux-container">
                 <div className="title">
@@ -185,9 +186,9 @@ class UserRedux extends Component {
                                 onChange={(event)=>{this.onChangeInput(event, 'phone')}} />
                             </div>
                             <div className="col-9">
-                                <label> <FormattedMessage id="manage-user.address"value={address} 
-                                onChange={(event)=>{this.onChangeInput(event, 'address')}} /> </label>
-                                <input className="form-control" type="text" />
+                                <label> <FormattedMessage id="manage-user.address" /> </label>
+                                <input className="form-control" type="text" value={address} 
+                                 onChange={(event)=>{this.onChangeInput(event, 'address')}}/>
                             </div>
 
                             <div className="col-3">
@@ -207,9 +208,10 @@ class UserRedux extends Component {
 
                             <div className="col-3">
                                 <label> <FormattedMessage id="manage-user.position" /> </label>
-                                <select className="form-control"   onChange={(event)=>{this.onChangeInput(event, 'position')}} >
-                                    {positions && positions.length > 0 &&
-                                        positions.map((item, index) => {
+                                <select className="form-control"   
+                                onChange={(event)=>{this.onChangeInput(event, 'position')}} >
+                                    {positions && positions.length > 0 
+                                    && positions.map((item, index) => {
                                             return (
                                                 <option key={index} value={item.key}>
                                                     {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
@@ -270,7 +272,7 @@ class UserRedux extends Component {
         );
     }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         language: state.app.language,
         genderRedux: state.admin.genders,
@@ -281,7 +283,7 @@ const mapStateToProps = (state) => {
 
     };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
 
         getGenderStart: () => dispatch(actions.fetchGenderStart()),

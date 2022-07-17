@@ -31,14 +31,24 @@ export const fetchGenderFailed = () =>
 
 
 export const fetchPositionSuccess = (positionData) =>
-    ({ type: actionTypes.FETCH_POSITION_SUCCESS, data: positionData })
+({
+    type: actionTypes.FETCH_POSITION_SUCCESS,
+    data: positionData
+})
 
-export const fetchPositionFailed = () => ({ type: actionTypes.FETCH_POSITION_FAILED })
+export const fetchPositionFailed = () => ({
+    type: actionTypes.FETCH_POSITION_FAILED
+})
 
 export const fetchRoleSuccess = (roleData) =>
-    ({ type: actionTypes.FETCH_ROLE_SUCCESS, data: roleData })
+({
+    type: actionTypes.FETCH_ROLE_SUCCESS,
+    data: roleData
+})
 
-export const fetchRoleFailed = () => ({ type: actionTypes.FETCH_ROLE_FAILED })
+export const fetchRoleFailed = () => ({
+    type: actionTypes.FETCH_ROLE_FAILED
+})
 
 
 
@@ -53,7 +63,8 @@ export const fetchPositionStart = () => {
                 dispatch(fetchPositionFailed());
             }
         } catch (e) {
-            dispatch(fetchPositionFailed()); console.log('fetchpositionFailed error', e)
+            dispatch(fetchPositionFailed()); 
+            console.log('fetchpositionFailed error', e)
         }
     }
 }
