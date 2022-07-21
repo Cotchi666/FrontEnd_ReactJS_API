@@ -121,7 +121,7 @@ export const createNewUser = (data) => {
       console.log("n check create user redux:", res);
       if (res && res.errCode === 0) {
         toast.success("Create a new user succeed!");
-        dispatch(saveUserSuccess());
+        dispatch(createUserSuccess());
         dispatch(fetchAllUsersStart());
       } else {
         dispatch(createUserFailed());

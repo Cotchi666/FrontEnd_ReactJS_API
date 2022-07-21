@@ -33,7 +33,7 @@ class TableManageUser extends Component {
 
     }
 
-    handdleEEditUser = (user) => {
+    handleEditUser = (user) => {
         this.props.handleEditUserFromParentKey(user)
     }
 
@@ -61,7 +61,7 @@ class TableManageUser extends Component {
                                 <td>{item.address}</td>
                                 <td>
                                   <button
-                                    onClick={() => this.handleEEditUser(item)}
+                                    onClick={() => this.handleEditUser(item)}
                                     className="btn-edit"
                                   >
                                     <i className="fas fa-pencil-alt"></i>

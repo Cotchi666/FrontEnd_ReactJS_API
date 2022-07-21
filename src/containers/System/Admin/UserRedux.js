@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import { getAllCodeService } from "../../../services/userService";
 import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import * as actions from "../../../store/actions";
 import "./UserRedux.scss";
@@ -26,6 +25,7 @@ class UserRedux extends Component {
       firstName: "",
       lastName: "",
       phone: "",
+      address:"",
       gender: "",
       position: "",
       role: "",
@@ -84,7 +84,7 @@ class UserRedux extends Component {
           arrPositions && arrPositions.length > 0 ? arrPositions[0].key : "",
         avatar: "",
         action: CRUD_ACTIONS.CREATE,
-        previewImgURL: ''
+        previewImgURL: ""
       });
     }
   }
@@ -133,6 +133,7 @@ class UserRedux extends Component {
     if (action === CRUD_ACTIONS.EDIT) {
       //file redux create user
       this.props.editAUserRedux({
+        id : this.state.userEditId,
         email: this.state.email,
         password: this.state.password,
         firstName: this.state.firstName,
@@ -148,7 +149,7 @@ class UserRedux extends Component {
     }
   };
 
-  heckValidateInput = () => {
+  checkValidateInput = () => {
     let isValid = true;
     let arrCheck = [
       "email",
@@ -158,8 +159,8 @@ class UserRedux extends Component {
       "phone",
       "address",
     ];
-    for (let i = 0; i < arrCheck; i++) {
-      if (!this.state[arrCheck.length[i]]) {
+    for (let i = 0; i < arrCheck.length; i++) {
+      if (!this.state[arrCheck[i]]) {
         isValid = false;
         alert("this input is required: " + arrCheck[i]);
         break;
@@ -447,9 +448,9 @@ class UserRedux extends Component {
               <div className="col-12 mb-5">
                 <TableManageUser 
                 handleEditUserFromParentKey = {this.handleEditUserFromParent}
-                action = {this.state.action}
                 />
               </div>
+              
             </div>
           </div>
         </div>
@@ -480,6 +481,7 @@ const mapDispatchToProps = (dispatch) => {
     getRoleStart: () => dispatch(actions.fetchRoleStart()),
     createNewUser: (data) => dispatch(actions.createNewUser(data)),
     fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
+    editAUserRedux :(data) => dispatch(actions.editAUser(data)),
   };
 };
 
