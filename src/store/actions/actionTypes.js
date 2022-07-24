@@ -29,7 +29,8 @@ const actionTypes = Object.freeze({
     //role 
     FETCH_ROLE_SUCCESS:"FETCH_ROLE_SUCCESS",
     FETCH_ROLE_FAILED:"FETCH_ROLE_FAILED",
-
+    
+    //user
     //create 
     CREATE_USER_SUCCESS:'CREATE_USER_SUCCESS',
     CREATE_USER_FAILED:' CREATE_USER_FAILED',
@@ -45,7 +46,9 @@ const actionTypes = Object.freeze({
     FETCH_ALL_USER_SUCCESS:'FETCH_ALL_USER_SUCCESS',
     FETCH_ALL_USER_FAILED:'FETCH_ALL_USER_FAILED',
 
-
+    //doctor
+    FETCH_TOP_DOCTOR_SUCCESS:'FETCH_TOP_DOCTOR_SUCCESS',
+    FETCH_TOP_DOCTOR_FAILED:'FETCH_TOP_DOCTOR_FAILED',
 })
 
 export default actionTypes;
