@@ -1,27 +1,31 @@
 import { Button, Container, Form } from "react-bootstrap";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import userAPI from "../api/userAPI";
 import { useContext, useState } from "react";
 import { Store } from "../Store";
 
 export default function SigninScreen() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
 
-  const { state, dispatch: ctxDispatch } = useContext(Store); 
+  const { state, dispatch: ctxDispatch } = useContext(Store);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const data  = await userAPI.login(email, password);
-      console.log("check data ", data)
-      ctxDispatch({type : 'USER_SIGNIN', payload: data})
-      
-    } catch (error) {}
+      const data = await userAPI.login(email, password);
+      console.log("check data user ", data.result);
+      ctxDispatch({ type: "USER_SIGNIN", payload: data.result });
+      localStorage.setItem("userInfo", JSON.stringify(data.result));
+      navigate(redirect || "/");
+    } catch (error) {
+      alert("Invalid email or password");
+    }
   };
   return (
     <Container className="small-container">
