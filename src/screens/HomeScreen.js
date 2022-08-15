@@ -1,10 +1,13 @@
 import React, { useReducer } from "react";
 import { useEffect } from "react";
-
+import { Helmet } from "react-helmet-async";
 import houseApi from "../api/houseApi";
 import logger from "use-reducer-logger";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import { getError } from "../utils";
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -37,7 +40,7 @@ const HomeScreen = () => {
           payload: response.results.slice(0, 9),
         });
       } catch (error) {
-        dispatch({ type: "FETCH_FAIL", payload: error.message });
+        dispatch({ type: "FETCH_FAIL", payload: getError(error) });
         console.log("Failed to fetch product list: ", error);
       }
     };
@@ -45,12 +48,15 @@ const HomeScreen = () => {
   }, []);
   return (
     <>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       <div className="products">
         <div>------------</div>
         {loading ? (
-          <div>Loading...</div>
+          <LoadingBox />
         ) : error ? (
-          <div>{error}</div>
+          <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <Row>
             {rooms.map((item) => (

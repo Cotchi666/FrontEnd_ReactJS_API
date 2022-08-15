@@ -8,10 +8,12 @@ import {
   Badge,
   Button,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import houseApi from "../api/houseApi";
 import { Helmet } from "react-helmet-async";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
 import { Store } from "../Store";
 
 const reducer = (state, action) => {
@@ -27,8 +29,10 @@ const reducer = (state, action) => {
   }
 };
 const ProductScreen = () => {
+  const navigate = useNavigate()
   const params = useParams();
   const { objectId } = params;
+
   const [{ room, loading, error }, dispatch] = useReducer(reducer, {
     room: [],
     loading: true,
@@ -39,7 +43,6 @@ const ProductScreen = () => {
       dispatch({ type: "FETCH_REQUEST" });
       try {
         const response = await houseApi.getRoomById(objectId);
-        console.log("check data 1", response);
         dispatch({
           type: "FETCH_SUCCESS",
           payload: response,
@@ -51,36 +54,33 @@ const ProductScreen = () => {
     fetchRooms();
   }, [objectId]);
 
-  // const { state, dispatch: ctxDispatch } = useContext(Store);
-  // const { cart } = state;
-
-  // const addToCartHandler = async () => {
-  //   const existItem = cart.cartItems.find((x) => x.objectId === room.objectId);
-  //   const quantity = existItem ? existItem.quantity + 1 : 1;
-  //   const response2 = await houseApi.getRoomById(room.objectId);
-  //   console.log("check data 2", response2.count);
-  //   if (response2.count < quantity) {
-  //     window.alert("sorry . Product is out of stock");
-  //     return;
-  //   }
-  //   console.log("first");
-  //   ctxDispatch({
-  //     type: "CART_ADD_ITEM",
-  //     payload: {
-  //       ...room,
-  //       quantity: 1,
-  //     },
-  //   });
-  //   console.log("second");
-  // };
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+ 
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((x) => x.objectId === room.objectId);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const data = await houseApi.getRoomById(room.objectId);
+    if (data.countInStock < quantity) {
+      window.alert("sorry . Product is out of stock");
+      return;
+    }
+    ctxDispatch({
+      type: "CART_ADD_ITEM",
+      payload: {
+        ...room,
+        quantity: 1,
+      },
+    });
+    navigate('/cart')
+  };
 
   return loading ? (
-    <div>Loading...</div>
+    <LoadingBox />
   ) : error ? (
-    <div>{error}</div>
+    <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
-      <div>------------</div>
       <Row>
         <Col md={6}>
           <img
@@ -92,6 +92,9 @@ const ProductScreen = () => {
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
+              <Helmet>
+                <title>{room.name}</title>
+              </Helmet>
               <h1>{room.name}</h1>
             </ListGroup.Item>
             <ListGroup.Item>
@@ -99,9 +102,8 @@ const ProductScreen = () => {
             </ListGroup.Item>
             <ListGroup.Item>
               <p>
-                this is a raw description, this is a raw description, this is a
-                raw description, this is a raw description, this is a raw
-                description,this is a raw description
+                This is a raw description, this is a raw description, this is a
+                raw description.
               </p>
             </ListGroup.Item>
           </ListGroup>
@@ -130,7 +132,9 @@ const ProductScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <div className="d-grid">
-                    <Button varian="primary">Click To Buy</Button>
+                    <Button onClick={addToCartHandler} varian="primary">
+                      Click To Buy
+                    </Button>
                   </div>
                 </ListGroup.Item>
               </ListGroup>
