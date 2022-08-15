@@ -1,9 +1,10 @@
 import React, { useReducer } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+
 import houseApi from "../api/houseApi";
 import logger from "use-reducer-logger";
-
+import { Col, Row } from "react-bootstrap";
+import Product from "../components/Product";
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -45,48 +46,19 @@ const HomeScreen = () => {
   return (
     <>
       <div className="products">
+        <div>------------</div>
         {loading ? (
           <div>Loading...</div>
         ) : error ? (
           <div>{error}</div>
         ) : (
-          rooms.map((item) => {
-            const category = item.parent.CategoryId.categories;
-            return (
-              <div className="product" key={item.objectId}>
-                <Link to={`/classes/Room/${item.objectId}`}>
-                  <img src={item.parent.image} alt="cc" />
-                </Link>
-                <div className="product-info">
-                  <div className="category flex">
-                    <span
-                      className="category"
-                      style={{
-                        background:
-                          category === "Featured" ? "#25b5791a" : "#ff98001a",
-                        color: category === "Featured" ? "#25b579" : "#ff9800",
-                      }}
-                    >
-                      {category}
-                    </span>
-                  </div>
-                  <Link to={`/classes/Room/${item.objectId}`}>
-                    <h4>{item.name}</h4>
-                  </Link>
-                  <p>
-                    <i className="fa fa-location-dot"></i>{" "}
-                    {item.parent.location}
-                  </p>
-                  <div>
-                    <p>
-                      <strong>${item.parent.price}</strong>
-                    </p>
-                    <button>Click to Buy</button>
-                  </div>
-                </div>
-              </div>
-            );
-          })
+          <Row>
+            {rooms.map((item) => (
+              <Col sm={6} md={4} lg={4} className="mb-3" key={item.objectId}>
+                <Product product={item}></Product>
+              </Col>
+            ))}
+          </Row>
         )}
       </div>
     </>

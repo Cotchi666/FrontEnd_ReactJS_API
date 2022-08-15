@@ -1,47 +1,55 @@
 import React, { useContext, useReducer } from "react";
-
+import {
+  Col,
+  ListGroup,
+  ListGroupItem,
+  Row,
+  Card,
+  Badge,
+  Button,
+} from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import houseApi from "../api/houseApi";
 import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
 
-// const reducer = (state, action) => {
-//   switch (action.type) {
-//     case "FETCH_REQUEST":
-//       return { ...state, loading: true };
-//     case "FETCH_SUCCESS":
-//       return { ...state, room: action.payload, loading: false };
-//     case "FETCH_FAIL":
-//       return { ...state, loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_REQUEST":
+      return { ...state, loading: true };
+    case "FETCH_SUCCESS":
+      return { ...state, room: action.payload, loading: false };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 const ProductScreen = () => {
   const params = useParams();
   const { objectId } = params;
-  // const [{ room, loading, error }, dispatch] = useReducer(reducer, {
-  //   room: [],
-  //   loading: true,
-  //   error: "",
-  // });
-  // useEffect(() => {
-  //   const fetchRooms = async () => {
-  //     dispatch({ type: "FETCH_REQUEST" });
-  //     try {
-  //       const response = await houseApi.getRoomById(objectId);
-  //       console.log("check data 1", response);
-  //       dispatch({
-  //         type: "FETCH_SUCCESS",
-  //         payload: response,
-  //       });
-  //     } catch (error) {
-  //       dispatch({ type: "FETCH_FAIL", payload: error.message });
-  //     }
-  //   };
-  //   fetchRooms();
-  // }, [objectId]);
+  const [{ room, loading, error }, dispatch] = useReducer(reducer, {
+    room: [],
+    loading: true,
+    error: "",
+  });
+  useEffect(() => {
+    const fetchRooms = async () => {
+      dispatch({ type: "FETCH_REQUEST" });
+      try {
+        const response = await houseApi.getRoomById(objectId);
+        console.log("check data 1", response);
+        dispatch({
+          type: "FETCH_SUCCESS",
+          payload: response,
+        });
+      } catch (error) {
+        dispatch({ type: "FETCH_FAIL", payload: error.message });
+      }
+    };
+    fetchRooms();
+  }, [objectId]);
 
   // const { state, dispatch: ctxDispatch } = useContext(Store);
   // const { cart } = state;
@@ -66,41 +74,71 @@ const ProductScreen = () => {
   //   console.log("second");
   // };
 
-  // return loading ? (
-  //   <div>Loading...</div>
-  // ) : error ? (
-  //   <div>{error}</div>
-  // ) : (
-  //   <section className="about" key={room.objectId}>
-  //     <Helmet>
-  //       <title>{room.name}</title>
-  //     </Helmet>
-
-  //     <div className="container flex mtop">
-  //       <div className="left row">
-  //         <h4>{room.name}</h4>
-  //         <p>
-  //           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-  //           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-  //           ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  //           aliquip ex ea commodo consequat.
-  //         </p>
-  //         <p>
-  //           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-  //           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-  //           ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  //           aliquip.
-  //         </p>
-  //         <button onClick={addToCartHandler} className="btn2">
-  //           Add to List
-  //         </button>
-  //       </div>
-  //       <div className="right row">
-  //         {objectId}
-  //         <img src={room.parent.image} alt="test" />
-  //       </div>
-  //     </div>
-  //   </section>
-  return <div>{objectId}</div>;
+  return loading ? (
+    <div>Loading...</div>
+  ) : error ? (
+    <div>{error}</div>
+  ) : (
+    <div>
+      <div>------------</div>
+      <Row>
+        <Col md={6}>
+          <img
+            className="img-large"
+            src={room.parent.image}
+            alt={room.name}
+          ></img>
+        </Col>
+        <Col md={3}>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <h1>{room.name}</h1>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <p>{room.parent.location}</p>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <p>
+                this is a raw description, this is a raw description, this is a
+                raw description, this is a raw description, this is a raw
+                description,this is a raw description
+              </p>
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
+        <Col md={3}>
+          <Card>
+            <Card.Body>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Price:</Col>
+                    <Col>${room.parent.price}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Status:</Col>
+                    <Col>
+                      {room.countInStock > 0 ? (
+                        <Badge bg="success">available</Badge>
+                      ) : (
+                        <Badge bg="danger">Unavailable</Badge>
+                      )}
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <div className="d-grid">
+                    <Button varian="primary">Click To Buy</Button>
+                  </div>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </div>
+  );
 };
 export default ProductScreen;
