@@ -59,7 +59,9 @@ const ProductScreen = () => {
  
   const addToCartHandler = async () => {
     const existItem = cart.cartItems.find((x) => x.objectId === room.objectId);
+    console.log("check exist item client", existItem)
     const quantity = existItem ? existItem.quantity + 1 : 1;
+    console.log("check quantity client", quantity)
     const data = await houseApi.getRoomById(room.objectId);
     if (data.countInStock < quantity) {
       window.alert("sorry . Product is out of stock");

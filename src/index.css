@@ -12,13 +12,9 @@ body {
 main {
   flex: 1;
 }
-
-.btn-primary{
-  background-color: #40f0e1;
-  color: #000000;
-}
+.btn-primary,
 .btn-outline-primary {
-  background-color: #40f0e1;
+  background-color: #f0c040;
   color: #000000;
 }
 

@@ -1,20 +1,26 @@
-import { useContext } from "react";
-import { Button, Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import houseApi from "../api/houseApi";
+import { useContext } from "react";
 import { Store } from "../Store";
+
 function Product(props) {
   const { product } = props;
   const category = product.parent.CategoryId.categories;
+  // const check = product.countInStock
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
 
   const addToCartHandler = async (item) => {
-    const existItem = cartItems.find((x) => x.objectId === product.objectId);
+    const existItem = cartItems.find((x) => x.objectId === item.objectId);
+    console.log("existItem", existItem)
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const data = await houseApi.getRoomById(product.objectId);
+    console.log("quantity", quantity)
+    const data = await houseApi.getRoomById(item.objectId);
+    console.log("check data", data)
     if (data.countInStock < quantity) {
       window.alert("sorry . This house is out of stock");
       return;
@@ -23,11 +29,11 @@ function Product(props) {
       type: "CART_ADD_ITEM",
       payload: {
         ...item,
-        quantity
+        quantity,
       },
     });
   };
-  const countInStock = product.countInStock
+
   return (
     <Card key={product.objectId}>
       <Link to={`/classes/Room/${product.objectId}`}>
@@ -53,8 +59,8 @@ function Product(props) {
         <Card.Text>
           <i className="fa fa-location-dot"></i> {product.parent.location}
         </Card.Text>
-        {countInStock === 0 ? (
-          <Button variant="light" disabled>
+      {product.countInStock === 0 ? (
+          <Button variant="light" disable={true}>
             Out of stock
           </Button>
         ) : (

@@ -25,7 +25,7 @@ export default function CartScreen() {
   };
 
   const checkoutHandler =()=>{
-    navigate('/signin?redirect=/shipping');
+    navigate('/signin?redirect=/order');
   }
 
   return (
@@ -52,19 +52,9 @@ export default function CartScreen() {
                         className="img-fluid rounded img-thumbnail"
                       ></img>
                       <Link to={`/classes/Room/${item.objectId}`}>
-                        {" "}
                         {item.name}
                       </Link>
                     </Col>
-                    {/* <Col md={3}>
-                      <Button variant="light" disable={item.quantity===1}>
-                        <i className="fas fa-minus-circle"></i>
-                      </Button>
-                      <span>{item.quantity}</span>
-                      <Button variant="light" disable={item.quantity===1}>
-                        <i className="fas fa-minus-circle"></i>
-                      </Button>
-                    </Col> */}
                     <Col md={3}>${item.parent.price} </Col>
                     <Col md={2}>
                       <Button
@@ -100,7 +90,7 @@ export default function CartScreen() {
                       type="button"
                       variant="primary"
                       onClick={checkoutHandler}
-                      disable={cartItems.length === 0}
+                     
                     >
                       Proceed to Checkout
                     </Button>
