@@ -9,6 +9,6 @@ if (you get problem, check out again) {
   * used NodeJs version :v16.15.0
   }
 
-- about the project:(Redux - ReactJS Hooks)
+- about the project:(Redux - ReactJS Hooks- Parse server)
 
 

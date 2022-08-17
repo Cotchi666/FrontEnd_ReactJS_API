@@ -21,7 +21,7 @@ export default function SigninScreen() {
     try {
       const data = await userAPI.login(email, password);
       console.log("check data user ", data.result);
-      ctxDispatch({ type: "USER_SIGNIN", payload: data.result });
+      ctxDispatch({ type: "USER_SIGN_IN", payload: data.result });
       localStorage.setItem("userInfo", JSON.stringify(data.result));
       navigate(redirect || "/");
     } catch (error) {

@@ -18,8 +18,8 @@ import Confirm from "./screens/Confirm";
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
-  const signoutHandle = () => {
-    ctxDispatch({ type: "USER_SIGNOUT" });
+  const signOutHandle = () => {
+    ctxDispatch({ type: "USER_SIGN_OUT" });
     localStorage.removeItem("userInfo");
     localStorage.removeItem("order");
     localStorage.removeItem("paymentMethod");
@@ -59,7 +59,7 @@ function App() {
                     <Link
                       className="dropdown-item"
                       to="#signup"
-                      onClick={signoutHandle}
+                      onClick={signOutHandle}
                     >
                       Sign Out
                     </Link>
@@ -86,7 +86,10 @@ function App() {
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
               <Route path="/order/:objectId" element={<OrderScreen />} />
-              <Route path="/payment/:objectId" element={<PaymentMethodScreen />} />
+              <Route
+                path="/payment/:objectId"
+                element={<PaymentMethodScreen />}
+              />
               <Route path="/confirm/:objectId" element={<Confirm />} />
             </Routes>
           </Container>
