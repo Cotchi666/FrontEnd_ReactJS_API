@@ -34,6 +34,7 @@ function Product(props) {
     });
   };
 
+  
   return (
     <Card key={product.objectId}>
       <Link to={`/classes/Room/${product.objectId}`}>
