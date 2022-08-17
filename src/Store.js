@@ -51,15 +51,15 @@ function reducer(state, action) {
       };
     case "CART_CLEAR":
       // console.log("state", state);
-      console.log("check item bf delete", state.cart.cartItems);
-      const Items = state.cart.cartItems.filter((item) =>
+      // console.log("check item bf delete", state.cart.cartItems);
+      const itemD = state.cart.cartItems.filter((item) =>
         item.objectId === action.payload.objectId ? false : true
       );
-      console.log("check item after delete", Items);
-      localStorage.setItem("cartItems", JSON.stringify(Items));
+      // console.log("check item after delete", Items);
+      localStorage.setItem("cartItems", JSON.stringify(itemD));
       return {
         ...state,
-        cart: { ...state.cart, cartItems: Items },
+        cart: { ...state.cart, cartItems: itemD },
       };
 
     case "SAVE_FORM_ORDER":

@@ -45,7 +45,7 @@ export default function Confirm() {
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: "CREATE_REQUEST" });
-      const data = await orderAPI.createOrder(
+      await orderAPI.createOrder(
         //formOrderorder
         cart.formOrder.fullName,
         cart.formOrder.email,
@@ -53,16 +53,11 @@ export default function Confirm() {
         //room
         a.objectId
       );
-
+      const objectIdNav = a.objectId;
       ctxDispatch({ type: "CART_CLEAR", payload: a });
-
-      ctxDispatch({ type: "ADD_TO_ORDER_DETAIL", payload: data });
-      // ctxDispatch({ type: "ORDER_CLEAR" ,payload: a});
       dispatch({ type: "CREATE_SUCCESS" });
       localStorage.removeItem("cartItems");
-          console.log("data order checkig", data)
-      navigate(`/orderDetail/${data.objectId}`);
-
+      navigate(`/orderDetail/${objectIdNav}`);
     } catch (error) {
       console.log(error);
       dispatch({ type: "CREATE_FAIL" });
