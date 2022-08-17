@@ -49,6 +49,18 @@ function reducer(state, action) {
         userInfo: null,
         cart: { cartItems: [], order: {}, paymentMethod: "" },
       };
+    case "CART_CLEAR":
+      // console.log("state", state);
+      console.log("check item bf delete", state.cart.cartItems);
+      const Items = state.cart.cartItems.filter((item) =>
+        item.objectId === action.payload.objectId ? false : true
+      );
+      console.log("check item after delete", Items);
+      localStorage.setItem("cartItems", JSON.stringify(Items));
+      return {
+        ...state,
+        cart: { ...state.cart, cartItems: Items },
+      };
 
     case "SAVE_ORDER":
       return {

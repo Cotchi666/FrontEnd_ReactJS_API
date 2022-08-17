@@ -24,10 +24,6 @@ export default function CartScreen() {
     ctxDispatch({ type: "CART_REMOVE_ITEM", payload: item });
   };
 
-  const checkoutHandler =()=>{
-    navigate('/signin?redirect=/order');
-  }
-
   return (
     <div>
       <Helmet>
@@ -63,6 +59,15 @@ export default function CartScreen() {
                       >
                         <i className="fas fa-trash"></i>
                       </Button>
+                      <Button
+                        type="button"
+                        variant="primary"
+                        onClick={() => {
+                          navigate(`/signin?redirect=/order/${item.objectId}`);
+                        }}
+                      >
+                        Checkout
+                      </Button>
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -83,18 +88,6 @@ export default function CartScreen() {
                       0
                     )}
                   </h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <div className="d-grid">
-                    <Button
-                      type="button"
-                      variant="primary"
-                      onClick={checkoutHandler}
-                     
-                    >
-                      Proceed to Checkout
-                    </Button>
-                  </div>
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>

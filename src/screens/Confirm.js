@@ -1,25 +1,74 @@
-import React, { useContext, useEffect } from "react";
-import { Card, Col, Row, Button, ListGroup } from "react-bootstrap";
+import React, { useContext, useEffect, useReducer } from "react";
+import { Card, Col, Row, Button, ListGroup, Toast } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CheckoutStep from "../components/CheckoutStep";
 import { Store } from "../Store";
 import LoadingBox from "../components/LoadingBox";
+import { getError } from "../utils";
+import { toast } from "react-toastify";
+import orderAPI from "../api/orderAPI";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "CREATE_REQUEST":
+      return { ...state, loading: true };
+    case "CREATE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+      };
+    case "CREATE_FAIL":
+      return {
+        ...state,
+        loading: false,
+      };
+    default:
+      return false;
+  }
+};
 export default function Confirm() {
   const navigate = useNavigate();
+  const params = useParams();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
+  const [{ loading, error }, dispatch] = useReducer(reducer, {
+    loading: false,
+    error: "",
+  });
+  //lay phan tu da duoc chon
+  const a = cart.cartItems.find((obj) => {
+    const { objectId } = params;
+    return (obj.objectId = objectId);
+  });
 
-  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
-  const number = cart.cartItems.reduce(
-    (a, c) => a + c.quantity * c.parent.price,
-    0
-  );
-  cart.itemsPrice = round2(number);
-  cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
-  cart.taxPrice = round2(0.15 * cart.itemsPrice);
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-  const placeOrderHandler = async () => {};
+  const placeOrderHandler = async () => {
+    try {
+      dispatch({ type: "CREATE_REQUEST" });
+      const data = await orderAPI.createOrder(
+        //order
+        cart.order.fullName,
+        cart.order.email,
+        cart.order.phone,
+        //room
+        a.objectId
+      );
+      console.log("idididi1");
+      ctxDispatch({ type: "CART_CLEAR", payload: a });
+      console.log("idididi2");
+      // ctxDispatch({ type: "ORDER_CLEAR" ,payload: a});
+      dispatch({ type: "CREATE_SUCCESS" });
+      console.log("idididi3");
+      localStorage.removeItem("cartItems");
+      console.log("idididi4");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "CREATE_FAIL" });
+      // toast.error("")
+      // toast.error(getError(error));
+    }
+  };
   useEffect(() => {
     if (!cart.paymentMethod) {
       navigate("/payment");
@@ -63,26 +112,22 @@ export default function Confirm() {
             <Card.Body>
               <Card.Title>Your House</Card.Title>
               <ListGroup variant="flush">
-                {cart.cartItems.map((item) => (
-                  <ListGroup.Item key={item.objectId}>
-                    <Row className="align-items-center">
-                      <Col md={4}>
-                        <img
-                          src={item.parent.image}
-                          alt={item.name}
-                          className="img-fluid rounded img-thumbnail"
-                        ></img>
-                        {"    "}
-                      </Col>
-                      <Col md={3}>
-                        <Link to={`/classes/Room/${item.objectId}`}>
-                          {item.name}
-                        </Link>
-                      </Col>
-                      <Col md={3}>${item.parent.price}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                ))}
+                <ListGroup.Item key={a.objectId}>
+                  <Row className="align-items-center">
+                    <Col md={4}>
+                      <img
+                        src={a.parent.image}
+                        alt={a.name}
+                        className="img-fluid rounded img-thumbnail"
+                      ></img>
+                      {"    "}
+                    </Col>
+                    <Col md={3}>
+                      <Link to={`/classes/Room/${a.objectId}`}>{a.name}</Link>
+                    </Col>
+                    <Col md={3}>${a.parent.price}</Col>
+                  </Row>
+                </ListGroup.Item>
               </ListGroup>
               <Link to="/cart">Edit</Link>
             </Card.Body>
@@ -95,30 +140,8 @@ export default function Confirm() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Items</Col>
-                    <Col>${cart.itemsPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Shipping</Col>
-                    <Col>${cart.shippingPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
                     <Col>Tax</Col>
-                    <Col>${cart.taxPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>
-                      <strong> Order Total</strong>
-                    </Col>
-                    <Col>
-                      <strong>${cart.totalPrice.toFixed(2)}</strong>
-                    </Col>
+                    <Col>${a.parent.price}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -126,12 +149,12 @@ export default function Confirm() {
                     <Button
                       type="button"
                       onClick={placeOrderHandler}
-                      disabled={cart.cartItems.length === 0}
+                      disabled={a.length === 0}
                     >
                       Place Order
                     </Button>
                   </div>
-                  {/* {loading && <LoadingBox></LoadingBox>} */}
+                  {loading && <LoadingBox></LoadingBox>}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>

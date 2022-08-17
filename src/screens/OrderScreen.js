@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import CheckoutStep from "../components/CheckoutStep";
 import { Store } from "../Store";
 function OrderScreen() {
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
+  const params = useParams();
+  const { objectId } = params;
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     userInfo,
@@ -14,11 +17,13 @@ function OrderScreen() {
   const [fullName, setFullName] = useState(order.fullName || "");
   const [email, setEmail] = useState(order.email || "");
   const [phone, setPhone] = useState(order.phone || "");
-  useEffect(()=>{
-    if(!userInfo){
-      navigate("/signin?redirect=/order")
+ 
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/signin?redirect=/order");
     }
-  },[userInfo,navigate])
+  }, [userInfo, navigate]);
   const submitHandler = (e) => {
     e.preventDefault();
     ctxDispatch({
@@ -37,7 +42,8 @@ function OrderScreen() {
         phone,
       })
     );
-    navigate("/payment");
+
+    navigate(`/payment/${objectId}`);
   };
   return (
     <div>
@@ -47,6 +53,7 @@ function OrderScreen() {
       <CheckoutStep step1 step2></CheckoutStep>
       <div className="container small-container">
         <h1 className="my-3">Order Form</h1>
+       
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="fullName">
             <Form.Label>Full Name</Form.Label>

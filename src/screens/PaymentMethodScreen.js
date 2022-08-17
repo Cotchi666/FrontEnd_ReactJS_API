@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CheckoutStep from "../components/CheckoutStep";
 import { Store } from "../Store";
 
 export default function PaymentMethodScreen() {
+  const params = useParams();
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
@@ -23,7 +24,10 @@ export default function PaymentMethodScreen() {
     e.preventDefault();
     ctxDispatch({ type: "SAVE_PAYMENT_METHOD", payload: paymentMethodName });
     localStorage.setItem("paymentMethod", paymentMethodName);
-    navigate("/confirm");
+    const { objectId } = params;
+    console.log('Check paymetn id', objectId)
+    navigate(`/confirm/${objectId}`);
+    
   };
 
   return (

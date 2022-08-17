@@ -9,7 +9,7 @@ const userAPI = {
     const url = "/functions/login";
     return axiosClient.post(url, { email, password });
   },
-  test: (name, phone, room_id) => {
+  createOrder: (name, phone, room_id) => {
     const url = "/functions/order";
     return axiosClient.post(url, { name, phone, room_id });
   },

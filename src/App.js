@@ -85,9 +85,9 @@ function App() {
 
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-              <Route path="/order" element={<OrderScreen />} />
-              <Route path="/payment" element={<PaymentMethodScreen />} />
-              <Route path="/confirm" element={<Confirm />} />
+              <Route path="/order/:objectId" element={<OrderScreen />} />
+              <Route path="/payment/:objectId" element={<PaymentMethodScreen />} />
+              <Route path="/confirm/:objectId" element={<Confirm />} />
             </Routes>
           </Container>
         </main>
