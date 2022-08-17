@@ -10,16 +10,16 @@ export default function PaymentMethodScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
-    cart: { order, paymentMethod },
+    cart: { formOrder, paymentMethod },
   } = state;
   const [paymentMethodName, setPaymentMethod] = useState(
     paymentMethod || "Paypal"
   );
   useEffect(() => {
-    if (!order.phone || !order.fullName) {
-      navigate("order");
+    if (!formOrder.phone || !formOrder.fullName) {
+      navigate("/formOrder");
     }
-  }, [order, navigate]);
+  }, [formOrder, navigate]);
   const submitHandler = (e) => {
     e.preventDefault();
     ctxDispatch({ type: "SAVE_PAYMENT_METHOD", payload: paymentMethodName });
@@ -27,7 +27,6 @@ export default function PaymentMethodScreen() {
     const { objectId } = params;
     console.log('Check paymetn id', objectId)
     navigate(`/confirm/${objectId}`);
-    
   };
 
   return (

@@ -63,7 +63,7 @@ export default function CartScreen() {
                         type="button"
                         variant="primary"
                         onClick={() => {
-                          navigate(`/signin?redirect=/order/${item.objectId}`);
+                          navigate(`/signin?redirect=/formOrder/${item.objectId}`);
                         }}
                       >
                         Checkout

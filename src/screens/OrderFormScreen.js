@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import CheckoutStep from "../components/CheckoutStep";
 import { Store } from "../Store";
-function OrderDetail() {
+function OrderFormScreen() {
 
   const navigate = useNavigate()
   const params = useParams();
@@ -12,22 +12,22 @@ function OrderDetail() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     userInfo,
-    cart: { order },
+    cart: { formOrder },
   } = state;
-  const [fullName, setFullName] = useState(order.fullName || "");
-  const [email, setEmail] = useState(order.email || "");
-  const [phone, setPhone] = useState(order.phone || "");
+  const [fullName, setFullName] = useState(formOrder.fullName || "");
+  const [email, setEmail] = useState(formOrder.email || "");
+  const [phone, setPhone] = useState(formOrder.phone || "");
  
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/signin?redirect=/order");
+      navigate("/signin?redirect=/formOrder");
     }
   }, [userInfo, navigate]);
   const submitHandler = (e) => {
     e.preventDefault();
     ctxDispatch({
-      type: "SAVE_ORDER",
+      type: "SAVE_FORM_ORDER",
       payload: {
         fullName,
         email,
@@ -35,7 +35,7 @@ function OrderDetail() {
       },
     });
     localStorage.setItem(
-      "order",
+      "formOrder",
       JSON.stringify({
         fullName,
         email,
@@ -90,4 +90,4 @@ function OrderDetail() {
   );
 }
 
-export default OrderDetail;
+export default OrderFormScreen;

@@ -8,8 +8,8 @@ const initialState = {
     : null,
 
   cart: {
-    order: localStorage.getItem("order")
-      ? JSON.parse(localStorage.getItem("order"))
+    formOrder: localStorage.getItem("formOrder")
+      ? JSON.parse(localStorage.getItem("formOrder"))
       : {},
     paymentMethod: localStorage.getItem("paymentMethod")
       ? localStorage.getItem("paymentMethod")
@@ -47,7 +47,7 @@ function reducer(state, action) {
       return {
         ...state,
         userInfo: null,
-        cart: { cartItems: [], order: {}, paymentMethod: "" },
+        cart: { cartItems: [], formOrder: {}, paymentMethod: "" },
       };
     case "CART_CLEAR":
       // console.log("state", state);
@@ -62,10 +62,10 @@ function reducer(state, action) {
         cart: { ...state.cart, cartItems: Items },
       };
 
-    case "SAVE_ORDER":
+    case "SAVE_FORM_ORDER":
       return {
         ...state,
-        cart: { ...state.cart, order: action.payload },
+        cart: { ...state.cart, formOrder: action.payload },
       };
     case "SAVE_PAYMENT_METHOD":
       return {

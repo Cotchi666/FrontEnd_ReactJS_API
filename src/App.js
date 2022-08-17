@@ -10,10 +10,11 @@ import { useContext } from "react";
 import CartScreen from "./screens/CartScreen";
 import SigninScreen from "./screens/SigninScreen";
 import { ToastContainer } from "react-toastify";
-import OrderScreen from "./screens/OrderScreen";
+import OrderFormScreen from "./screens/OrderFormScreen";
 import SignupScreen from "./screens/SignupScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import Confirm from "./screens/Confirm";
+import OrderDetail from "./screens/Order";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -21,7 +22,7 @@ function App() {
   const signOutHandle = () => {
     ctxDispatch({ type: "USER_SIGN_OUT" });
     localStorage.removeItem("userInfo");
-    localStorage.removeItem("order");
+    localStorage.removeItem("formOrder");
     localStorage.removeItem("paymentMethod");
   };
 
@@ -85,12 +86,13 @@ function App() {
 
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-              <Route path="/order/:objectId" element={<OrderScreen />} />
+              <Route path="/formOrder/:objectId" element={<OrderFormScreen />} />
               <Route
                 path="/payment/:objectId"
                 element={<PaymentMethodScreen />}
               />
               <Route path="/confirm/:objectId" element={<Confirm />} />
+              <Route path="/orderDetail:objectId" element={<OrderDetail />} />
             </Routes>
           </Container>
         </main>

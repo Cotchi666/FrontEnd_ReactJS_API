@@ -36,7 +36,7 @@ export default function Confirm() {
     loading: false,
     error: "",
   });
-  //lay phan tu da duoc chon
+  //lay phan tu da duoc chon item
   const a = cart.cartItems.find((obj) => {
     const { objectId } = params;
     return (obj.objectId = objectId);
@@ -46,21 +46,22 @@ export default function Confirm() {
     try {
       dispatch({ type: "CREATE_REQUEST" });
       const data = await orderAPI.createOrder(
-        //order
-        cart.order.fullName,
-        cart.order.email,
-        cart.order.phone,
+        //formOrderorder
+        cart.formOrder.fullName,
+        cart.formOrder.email,
+        cart.formOrder.phone,
         //room
         a.objectId
       );
 
       ctxDispatch({ type: "CART_CLEAR", payload: a });
+
       ctxDispatch({ type: "ADD_TO_ORDER_DETAIL", payload: data });
       // ctxDispatch({ type: "ORDER_CLEAR" ,payload: a});
       dispatch({ type: "CREATE_SUCCESS" });
       localStorage.removeItem("cartItems");
-
-      navigate("/");
+          console.log("data order checkig", data)
+      navigate(`/orderDetail/${data.objectId}`);
 
     } catch (error) {
       console.log(error);
@@ -90,13 +91,13 @@ export default function Confirm() {
             <Card.Body>
               <Card.Title>Information</Card.Title>
               <Card.Text>
-                <strong>Name:</strong> {cart.order.fullName} <br />
-                <strong>Email: </strong> {cart.order.email}
+                <strong>Name:</strong> {cart.formOrder.fullName} <br />
+                <strong>Email: </strong> {cart.formOrder.email}
                 <br />
                 <strong>Phone: </strong>
-                {cart.order.phone}
+                {cart.formOrder.phone}
               </Card.Text>
-              <Link to="/order">Edit</Link>
+              <Link to="/formOrder">Edit</Link>
             </Card.Body>
           </Card>
           <Card className="mb-3">
