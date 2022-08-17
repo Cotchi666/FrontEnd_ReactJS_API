@@ -53,20 +53,20 @@ export default function Confirm() {
         //room
         a.objectId
       );
-      console.log("idididi1");
+
       ctxDispatch({ type: "CART_CLEAR", payload: a });
-      console.log("idididi2");
+      ctxDispatch({ type: "ADD_TO_ORDER_DETAIL", payload: data });
       // ctxDispatch({ type: "ORDER_CLEAR" ,payload: a});
       dispatch({ type: "CREATE_SUCCESS" });
-      console.log("idididi3");
       localStorage.removeItem("cartItems");
-      console.log("idididi4");
+
       navigate("/");
+
     } catch (error) {
       console.log(error);
       dispatch({ type: "CREATE_FAIL" });
       // toast.error("")
-      // toast.error(getError(error));
+      toast.error(getError(error));
     }
   };
   useEffect(() => {
