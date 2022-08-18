@@ -50,14 +50,17 @@ export default function Confirm() {
         cart.formOrder.fullName,
         cart.formOrder.email,
         cart.formOrder.phone,
+        cart.paymentMethod,
+
         //room
-        a.objectId
+        a.objectId,
+        a.parent.price
       );
       const objectIdNav = a.objectId;
       ctxDispatch({ type: "CART_CLEAR", payload: a });
       dispatch({ type: "CREATE_SUCCESS" });
       localStorage.removeItem("cartItems");
-      navigate(`/orderDetail/${objectIdNav}`);
+      navigate(`/order/${objectIdNav}`);
     } catch (error) {
       console.log(error);
       dispatch({ type: "CREATE_FAIL" });
@@ -147,7 +150,7 @@ export default function Confirm() {
                       onClick={placeOrderHandler}
                       disabled={a.length === 0}
                     >
-                      Place Order
+                      Place to Order
                     </Button>
                   </div>
                   {loading && <LoadingBox></LoadingBox>}

@@ -14,7 +14,7 @@ import OrderFormScreen from "./screens/OrderFormScreen";
 import SignupScreen from "./screens/SignupScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import Confirm from "./screens/Confirm";
-import OrderDetail from "./screens/Order";
+import Order from "./screens/Order";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -92,7 +92,7 @@ function App() {
                 element={<PaymentMethodScreen />}
               />
               <Route path="/confirm/:objectId" element={<Confirm />} />
-              <Route path="/orderDetail:objectId" element={<OrderDetail />} />
+              <Route path="/order/:objectId" element={<Order />} />
             </Routes>
           </Container>
         </main>
