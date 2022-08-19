@@ -19,6 +19,9 @@ const orderAPI = {
     const url = `/functions/get-order?room_id=${objectId}`;
     return axiosClient.post(url);
   },
+  getOrdersMine: (user_id) => {
+    const url = `/classes/Order?include=room_id.parent,user_id.objectId=${user_id}`;
+    return axiosClient.get(url);
+  },
 };
-
 export default orderAPI;

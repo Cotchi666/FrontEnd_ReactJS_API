@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import { Button, Table } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import orderAPI from "../api/orderAPI";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { Store } from "../Store";
 import { getError } from "../utils";
 const reducer = (state, action) => {
   switch (action.type) {
@@ -18,20 +19,24 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 export default function OrderHistoryScreen() {
-  const { state } = useContext(store);
+  const { state } = useContext(Store);
   const { userInfo } = state;
   const navigate = useNavigate();
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
     error: "",
   });
+  console.log("orders", orders);
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: "FETCH_REQUEST" });
       try {
-        const res = await orderAPI.getOrdersMine();
-        dispatch({ type: "FETCH_SUCCESS", payload: res });
+        const res = await orderAPI.getOrdersMine(userInfo.objectId);
+
+        // console.log('data', data)
+        dispatch({ type: "FETCH_SUCCESS", payload: res.results });
       } catch (error) {
         dispatch({ type: "FETCH_FAIL", payload: getError(reportError) });
       }
@@ -62,23 +67,25 @@ export default function OrderHistoryScreen() {
           </thead>
           <tbody>
             {orders.map((order) => {
-              <tr key={order.objectId}>
-                <td>{order.objectId}</td>
-                <td>{order.createAt.subString(0, 10)}</td>
-                <td>{order.room_id.parent.price.toFixed(2)}</td>
-                <td>{order.isPaid ? " Paid" : " not Paid"}</td>
-                <td>
-                  <Button
-                    type="button"
-                    variant="light"
-                    onClick={() => {
-                      navigate(`/order/${order.objectId}`);
-                    }}
-                  >
-                    Details
-                  </Button>
-                </td>
-              </tr>;
+              return (
+                <tr key={order.objectId}>
+                  <td>{order.objectId}</td>
+                  <td>{order.createdAt}</td>
+                  <td>${order.room_id.parent.price}</td>
+                  <td>{order.isPaid ? " Paid" : " not Paid"}</td>
+                  <td>
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => {
+                        navigate(`/order/${order.room_id.objectId}`);
+                      }}
+                    >
+                      Details
+                    </Button>
+                  </td>
+                </tr>
+              );
             })}
           </tbody>
         </table>

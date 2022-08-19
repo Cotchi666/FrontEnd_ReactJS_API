@@ -15,6 +15,7 @@ import SignupScreen from "./screens/SignupScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import Confirm from "./screens/Confirm";
 import Order from "./screens/Order";
+import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -53,7 +54,7 @@ function App() {
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>User Profile</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/orderhistory">
+                    <LinkContainer to="/orderHistory">
                       <NavDropdown.Item>Order History</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Divider />
@@ -93,6 +94,8 @@ function App() {
               />
               <Route path="/confirm/:objectId" element={<Confirm />} />
               <Route path="/order/:objectId" element={<Order />} />
+              <Route path="/orderHistory" element={<OrderHistoryScreen />} />
+              
             </Routes>
           </Container>
         </main>
