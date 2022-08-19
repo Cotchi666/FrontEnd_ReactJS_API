@@ -36,12 +36,13 @@ export default function Confirm() {
     loading: false,
     error: "",
   });
+  console.log("userInfo", userInfo.objectId);
   //lay phan tu da duoc chon item
   const a = cart.cartItems.find((obj) => {
     const { objectId } = params;
     return (obj.objectId = objectId);
   });
-
+  console.log("room id", a.objectId);
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: "CREATE_REQUEST" });
@@ -54,13 +55,14 @@ export default function Confirm() {
 
         //room
         a.objectId,
-        a.parent.price
+        //user
+        userInfo.objectId
       );
-      const objectIdNav = a.objectId;
       ctxDispatch({ type: "CART_CLEAR", payload: a });
       dispatch({ type: "CREATE_SUCCESS" });
+
       localStorage.removeItem("cartItems");
-      navigate(`/order/${objectIdNav}`);
+      navigate(`/order/${a.objectId}`);
     } catch (error) {
       console.log(error);
       dispatch({ type: "CREATE_FAIL" });

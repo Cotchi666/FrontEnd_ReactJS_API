@@ -34,13 +34,14 @@ function reducer(state, action) {
 }
 
 export default function Order() {
-  const params = useParams;
+  const params = useParams();
   const { objectId } = params;
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
   const navigate = useNavigate();
   //
 
+  console.log("check object id order", objectId);
   const [{ loading, error, order, successPay, loadingPay }, dispatch] =
     useReducer(reducer, {
       loading: true,
@@ -54,7 +55,6 @@ export default function Order() {
   console.log("isPending", isPending);
 
   function createOrder(data, actions) {
-   
     return actions.order
       .create({
         purchase_units: [{ amount: { value: order.room_id.parent.price } }],
@@ -68,6 +68,7 @@ export default function Order() {
       try {
         dispatch({ type: "PAY_REQUEST" });
         const data = await paypalAPI.putPayPal();
+
         dispatch({ type: "PAY_SUCCESS", payload: data });
         toast.success("Order is paid");
       } catch (error) {
@@ -87,11 +88,8 @@ export default function Order() {
         dispatch({ type: "FETCH_REQUEST" });
         //id of a house
         const res = await orderAPI.getOrder(objectId);
-        const data = res.results;
-        const dataOrder = data.find((obj) => {
-          return obj;
-        });
-        console.log("Check  order", dataOrder);
+        console.log("data", res);
+        const dataOrder = res.result;
         dispatch({ type: "FETCH_SUCCESS", payload: dataOrder });
       } catch (e) {
         dispatch({ type: "FETCH_FAIL", payload: getError(e) });
@@ -101,9 +99,9 @@ export default function Order() {
       return navigate("/signin");
     }
     if (
-      !order.room_id ||
+      !order.room_id.objectIdF ||
       successPay ||
-      (order.room_id && order.room_id !== objectId)
+      (order.room_id.objectId && order.room_id.objectId !== objectId)
     ) {
       fetchOrder();
       if (successPay) {
@@ -124,7 +122,7 @@ export default function Order() {
       loadPayPalScript();
     }
   }, [paypalDispatch, userInfo, successPay]);
-
+  console.log("false or true", order.room_id);
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
@@ -212,7 +210,7 @@ export default function Order() {
                       <strong>Order Total</strong>
                     </Col>
                     <Col>
-                      <strong>${order.totalPrice}</strong>
+                      <strong>${order.room_id.parent.price}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
