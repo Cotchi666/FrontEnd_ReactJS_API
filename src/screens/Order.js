@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import orderAPI from "../api/orderAPI";
-import CheckoutStep from "../components/CheckoutStep";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { Store } from "../Store";
@@ -18,27 +17,17 @@ function reducer(state, action) {
     case "FETCH_REQUEST":
       return { ...state, loading: true, error: "" };
     case "FETCH_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        order: action.payload,
-        error: "",
-      };
+      return { ...state, loading: false, order: action.payload, error: "" };
     case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
     case "PAY_REQUEST":
       return { ...state, loadingPay: true };
     case "PAY_SUCCESS":
-      return {
-        ...state,
-        loadingPay: false,
-        successPay: true,
-      };
+      return { ...state, loadingPay: false, successPay: true };
     case "PAY_FAIL":
-      return { ...state, loading: false, errorPay: action.payload };
+      return { ...state, loadingPay: false, errorPay: action.payload };
     case "PAY_RESET":
       return { ...state, loadingPay: false, successPay: false };
-
     default:
       return state;
   }
@@ -51,6 +40,7 @@ export default function Order() {
   const { userInfo, cart } = state;
   const navigate = useNavigate();
   //
+
   const [{ loading, error, order, successPay, loadingPay }, dispatch] =
     useReducer(reducer, {
       loading: true,
@@ -59,36 +49,39 @@ export default function Order() {
       successPay: false,
       loadingPay: false,
     });
+
   //
+
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   console.log("isPending", isPending);
 
   function createOrder(data, actions) {
-    console.log("create order ready")
-    const a = order.find((obj)=>{
-      return obj
-    })
+    console.log("create order ready");
+    const a = order.find((obj) => {
+      return obj;
+    });
     return actions.order
       .create({
         purchase_units: [{ amount: { value: a.totalPrice } }],
       })
       .then((data) => {
-        console.log("create order done",data);
+        console.log("create order done", data);
         return data;
       });
   }
   function onApprove(data, actions) {
-    console.log("on approve ready")
+    console.log("on approve ready");
     return actions.order.capture().then(async function (details) {
       try {
         console.log("create on ");
         dispatch({ type: "PAY_REQUEST" });
         const data = await paypalAPI.putPayPal();
         console.log("check paypal approve", data);
-        
+
         dispatch({ type: "PAY_SUCCESS", payload: data });
         toast.success("Order is paid");
         console.log("create on done");
+        
       } catch (error) {
         dispatch({ type: "PAY_FAIL", payload: getError(error) });
         toast.error(getError(error));
@@ -98,16 +91,22 @@ export default function Order() {
   function onError(error) {
     toast.error(getError(error));
   }
-
   //
+  console.log("use effect ready");
   useEffect(() => {
+    console.log("1");
+    //
     const fetchOrder = async () => {
+      console.log("2");
       try {
         dispatch({ type: "FETCH_REQUEST" });
         //id of a house
+        console.log("2.5");
         const data = await orderAPI.getOrder(objectId);
         console.log("check data order", data.results);
+        console.log("3");
         dispatch({ type: "FETCH_SUCCESS", payload: data.results });
+        console.log("4");
       } catch (e) {
         dispatch({ type: "FETCH_FAIL", payload: getError(e) });
       }
@@ -115,21 +114,22 @@ export default function Order() {
     if (!userInfo) {
       return navigate("/signin");
     }
-    // if (!order || order || successPay) {
-    //   fetchOrder();
-    //   console.log("fetch order");
-    //   if (successPay) {
-    //     dispatch({ type: "PAY_RESET" });
-    //   }
-    // } 
-    // if (!order){
-    //   fetchOrder();
-    // }
-    else {
+    if (!order || successPay) {
       fetchOrder();
-      console.log("fetch paypal")
+      console.log("fetch order");
+      if (successPay) {
+        dispatch({ type: "PAY_RESET" });
+      }
+    } else {
+      console.log("5");
+      fetchOrder();
+      console.log("6");
+      console.log("loadPayPalScript ready");
+
       const loadPayPalScript = async () => {
+        console.log("6.5.1.1");
         const data = await paypalAPI.getPayPal();
+        console.log("7");
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -137,11 +137,14 @@ export default function Order() {
             currency: "USD",
           },
         });
-  
+        console.log("8");
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
-        console.log("clientiD3");
+        console.log("9");
+        console.log("loadPayPalScript done");
       };
+      console.log("6.5");
       loadPayPalScript();
+      console.log("6.5.1");
     }
   }, [paypalDispatch]);
 
@@ -158,7 +161,7 @@ export default function Order() {
               <title>{item.objectId}</title>
             </Helmet>
             <h1 className="my-3">Order Id: {item.objectId} </h1>
-            <Row>
+            <Row key={item.objectId}>
               <Col md={8}>
                 <Card className="mb-3">
                   <Card.Body>
@@ -252,7 +255,7 @@ export default function Order() {
                               ></PayPalButtons>
                             </div>
                           )}
-                          {loadingPay && <LoadingBox />}
+                          {loadingPay && <LoadingBox></LoadingBox>}
                         </ListGroup.Item>
                       )}
                     </ListGroup>
