@@ -30,6 +30,7 @@ function reducer(state, action) {
 
     case "CART_REMOVE_ITEM": {
       console.log("state", state);
+      // lay ra cac object thoa dieu kien
       const cartItems = state.cart.cartItems.filter(
         (item) => item.objectId !== action.payload.objectId
         //if(false) => null
