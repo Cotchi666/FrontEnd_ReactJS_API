@@ -61,7 +61,7 @@ export default function OrderHistoryScreen() {
               <th>DATE</th>
               <th>TOTAL</th>
               <th>PAID</th>
-              <th>DELIVERED</th>
+              <th>KEY-GIVEN </th>
               <th>ACTIONS</th>
             </tr>
           </thead>
@@ -71,8 +71,10 @@ export default function OrderHistoryScreen() {
                 <tr key={order.objectId}>
                   <td>{order.objectId}</td>
                   <td>{order.createdAt}</td>
+
                   <td>${order.room_id.parent.price}</td>
-                  <td>{order.isPaid ? " Paid" : " not Paid"}</td>
+                  <td>{order.isPaid ? " Paid" : " Unpaid"}</td>
+                  <td> No</td>
                   <td>
                     <Button
                       type="button"

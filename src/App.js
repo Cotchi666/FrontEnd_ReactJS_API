@@ -32,46 +32,49 @@ function App() {
       <div className="d-flex flex-column site-container">
         <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/">
                 <Navbar.Brand>ICON</Navbar.Brand>
               </LinkContainer>
-              <Nav className="me-auto">
-                <Link to="/cart" className="nav-link">
-                  Cart
-                  {cart.cartItems.length > 0 && (
-                    <Badge pill bg="danger">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </Badge>
-                  )}
-                </Link>
-                {userInfo ? (
-                  <NavDropdown
-                    title={userInfo.username}
-                    id="basic-nav-dropdown"
-                  >
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>User Profile</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/orderHistory">
-                      <NavDropdown.Item>Order History</NavDropdown.Item>
-                    </LinkContainer>
-                    <NavDropdown.Divider />
-                    <Link
-                      className="dropdown-item"
-                      to="#signup"
-                      onClick={signOutHandle}
-                    >
-                      Sign Out
-                    </Link>
-                  </NavDropdown>
-                ) : (
-                  <Link className="nav-link" to="/signin">
-                    Sign In
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto w-100 justify-content-end ">
+                  <Link to="/cart" className="nav-link">
+                    Cart
+                    {cart.cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}
                   </Link>
-                )}
-              </Nav>
+                  {userInfo ? (
+                    <NavDropdown
+                      title={userInfo.username}
+                      id="basic-nav-dropdown"
+                    >
+                      <LinkContainer to="/profile">
+                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/orderHistory">
+                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Divider />
+                      <Link
+                        className="dropdown-item"
+                        to="#signup"
+                        onClick={signOutHandle}
+                      >
+                        Sign Out
+                      </Link>
+                    </NavDropdown>
+                  ) : (
+                    <Link className="nav-link" to="/signin">
+                      Sign In
+                    </Link>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
             </Container>
           </Navbar>
         </header>
@@ -87,7 +90,10 @@ function App() {
 
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-              <Route path="/formOrder/:objectId" element={<OrderFormScreen />} />
+              <Route
+                path="/formOrder/:objectId"
+                element={<OrderFormScreen />}
+              />
               <Route
                 path="/payment/:objectId"
                 element={<PaymentMethodScreen />}
@@ -95,7 +101,6 @@ function App() {
               <Route path="/confirm/:objectId" element={<Confirm />} />
               <Route path="/order/:objectId" element={<Order />} />
               <Route path="/orderHistory" element={<OrderHistoryScreen />} />
-              
             </Routes>
           </Container>
         </main>
