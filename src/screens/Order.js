@@ -53,7 +53,7 @@ export default function Order() {
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   console.log("isPending", isPending);
-
+  console.log("first", order.isPaid);
   function createOrder(data, actions) {
     return actions.order
       .create({
@@ -67,7 +67,7 @@ export default function Order() {
     return actions.order.capture().then(async function (details) {
       try {
         dispatch({ type: "PAY_REQUEST" });
-        const data = await paypalAPI.putPayPal();
+        const data = await paypalAPI.putPayPal(order.objectId);
 
         dispatch({ type: "PAY_SUCCESS", payload: data });
         toast.success("Order is paid");
@@ -98,18 +98,14 @@ export default function Order() {
     if (!userInfo) {
       return navigate("/signin");
     }
-    if (
-      !order.room_id.objectIdF ||
-      successPay ||
-      (order.room_id.objectId && order.room_id.objectId !== objectId)
-    ) {
-      fetchOrder();
-      if (successPay) {
-        dispatch({ type: "PAY_RESET" });
-      }
+    if (successPay) {
+      dispatch({ type: "PAY_RESET" });
     } else {
+      fetchOrder();
       const loadPayPalScript = async () => {
+        console.log("4");
         const data = await paypalAPI.getPayPal();
+        console.log("3");
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -117,12 +113,14 @@ export default function Order() {
             currency: "USD",
           },
         });
+        console.log("1");
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+        console.log("2");
       };
       loadPayPalScript();
     }
   }, [paypalDispatch, userInfo, successPay]);
-  console.log("false or true", order.room_id);
+
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (

@@ -6,8 +6,8 @@ const paypalAPI = {
     const url = "/functions/PAYPAL";
     return axiosClient.post(url);
   },
-  putPayPal: () => {
-    const url = "/functions/payment";
+  putPayPal: (objectId) => {
+    const url = `/functions/payment?objectId=${objectId}`;
     return axiosClient.post(url);
   },
 };
