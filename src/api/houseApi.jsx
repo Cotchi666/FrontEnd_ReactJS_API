@@ -16,14 +16,18 @@ const houseApi = {
   },
   getRoomById: (objectId) => {
     const url = `/classes/Room/${objectId}/?include=parent.CategoryId`;
-    
+
     return axiosClient.get(url);
   },
   getAllRoom: () => {
     const url = "/classes/Room?include=parent.CategoryId";
     return axiosClient.get(url);
   },
-
+  getCate: () => {
+    const url = "/classes/Category";
+    return axiosClient.get(url);
+  },
+  
 };
 
 export default houseApi;

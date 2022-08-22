@@ -53,7 +53,7 @@ const HomeScreen = () => {
         <title>Home</title>
       </Helmet>
       <div className="products">
-        <div>------------</div>
+        <h1>Featured Rooms</h1>
         {loading ? (
           <LoadingBox />
         ) : error ? (

@@ -13,6 +13,10 @@ const userAPI = {
     const url = "/functions/order";
     return axiosClient.post(url, { name, phone, room_id });
   },
+  updateUser: (objectId, username, email, password) => {
+    const url = "/functions/update-user";
+    return axiosClient.post(url, { objectId, username, email, password });
+  },
 };
 
 export default userAPI;
