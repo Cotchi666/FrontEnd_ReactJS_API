@@ -8,6 +8,7 @@ import Product from "../components/Product";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
+import { useParams } from "react-router-dom";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -27,26 +28,52 @@ const HomeScreen = () => {
     loading: true,
     error: "",
   });
-  // const [rooms, setRooms] = useState([]);
+  const { category } = useParams();
+  const categoryId = category;
+  console.log("category", categoryId);
+
+  // useEffect(() => {
+  //   const fetchRooms = async () => {
+  //     dispatch({ type: "FETCH_REQUEST" });
+  //     try {
+  //       const response = await houseApi.getAllRoom();
+  //       console.log("Fetch products successfully: ", response.results);
+  //       // setRooms(response.results.slice(0, 9));
+  //
+  //     } catch (error) {
+  //       dispatch({ type: "FETCH_FAIL", payload: getError(error) });
+  //       console.log("Failed to fetch product list: ", error);
+  //     }
+  //   };
+  //   fetchRooms();
+  // }, []);
 
   useEffect(() => {
     const fetchRooms = async () => {
       dispatch({ type: "FETCH_REQUEST" });
       try {
-        const response = await houseApi.getAllRoom();
-        console.log("Fetch products successfully: ", response.results);
-        // setRooms(response.results.slice(0, 9));
-        dispatch({
-          type: "FETCH_SUCCESS",
-          payload: response.results.slice(0, 9),
-        });
+        if (categoryId) {
+          const response = await houseApi.getRoomByCate(categoryId);
+          console.log("Fetch products successfully: ", response.result);
+          // setRooms(response.results.slice(0, 9));
+          dispatch({
+            type: "FETCH_SUCCESS",
+            payload: response.result,
+          });
+        } else {
+          const response = await houseApi.getAllRoom();
+          dispatch({
+            type: "FETCH_SUCCESS",
+            payload: response.results.slice(0, 9),
+          });
+        }
       } catch (error) {
         dispatch({ type: "FETCH_FAIL", payload: getError(error) });
         console.log("Failed to fetch product list: ", error);
       }
     };
     fetchRooms();
-  }, []);
+  }, [categoryId]);
   return (
     <>
       <Helmet>
@@ -62,6 +89,7 @@ const HomeScreen = () => {
           <Row>
             {rooms.map((item) => (
               <Col sm={6} md={4} lg={4} className="mb-3" key={item.objectId}>
+                {/* <Product product={item}></Product> */}
                 <Product product={item}></Product>
               </Col>
             ))}

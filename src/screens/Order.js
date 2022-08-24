@@ -52,15 +52,14 @@ export default function Order() {
     });
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-  console.log("isPending", isPending);
-  console.log("first", order.isPaid);
+
   function createOrder(data, actions) {
     return actions.order
       .create({
         purchase_units: [{ amount: { value: order.room_id.parent.price } }],
       })
-      .then((data) => {
-        return data;
+      .then((id) => {
+        return id;
       });
   }
   function onApprove(data, actions) {
@@ -80,6 +79,7 @@ export default function Order() {
   function onError(error) {
     toast.error(getError(error));
   }
+
   //
   useEffect(() => {
     //
@@ -88,7 +88,6 @@ export default function Order() {
         dispatch({ type: "FETCH_REQUEST" });
         //id of a house
         const res = await orderAPI.getOrder(objectId);
-        console.log("data", res);
         const dataOrder = res.result;
         dispatch({ type: "FETCH_SUCCESS", payload: dataOrder });
       } catch (e) {
@@ -103,9 +102,7 @@ export default function Order() {
     } else {
       fetchOrder();
       const loadPayPalScript = async () => {
-        console.log("4");
         const data = await paypalAPI.getPayPal();
-        console.log("3");
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -113,9 +110,7 @@ export default function Order() {
             currency: "USD",
           },
         });
-        console.log("1");
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
-        console.log("2");
       };
       loadPayPalScript();
     }

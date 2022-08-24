@@ -27,6 +27,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import { getError } from "./utils";
 import houseApi from "./api/houseApi";
 import SearchBox from "./components/SearchBox";
+import SearchScreen from "./screens/SearchScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -133,7 +134,7 @@ function App() {
             {categories.map((category) => (
               <Nav.Item>
                 <LinkContainer
-                  to={`/search?category=${category.categories}`}
+                  to={`/${category.objectId}`}
                   onClick={() => setSidebarIsOpen(false)}
                 >
                   <Nav.Link>{category.categories}</Nav.Link>
@@ -146,12 +147,14 @@ function App() {
         <main>
           <Container className="mt-3">
             <Routes>
+              <Route path="/:category" element={<HomeScreen />} />
               <Route path="/" element={<HomeScreen />} />
               <Route
                 path="/classes/Room/:objectId"
                 element={<ProductScreen />}
               />
               <Route path="/cart" element={<CartScreen />} />
+              <Route path="/search" element={<SearchScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />

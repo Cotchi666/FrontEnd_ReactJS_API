@@ -7,7 +7,7 @@ import { Store } from "../Store";
 
 function Product(props) {
   const { product } = props;
-  const category = product.parent.CategoryId.categories;
+  const category = product.cate.categories;
   // const check = product.countInStock
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
@@ -16,11 +16,11 @@ function Product(props) {
 
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x.objectId === item.objectId);
-    console.log("existItem", existItem)
+    console.log("existItem", existItem);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    console.log("quantity", quantity)
+    console.log("quantity", quantity);
     const data = await houseApi.getRoomById(item.objectId);
-    console.log("check data", data)
+    console.log("check data", data);
     if (data.countInStock < quantity) {
       window.alert("sorry . This house is out of stock");
       return;
@@ -34,7 +34,6 @@ function Product(props) {
     });
   };
 
-  
   return (
     <Card key={product.objectId}>
       <Link to={`/classes/Room/${product.objectId}`}>
@@ -60,7 +59,7 @@ function Product(props) {
         <Card.Text>
           <i className="fa fa-location-dot"></i> {product.parent.location}
         </Card.Text>
-      {product.countInStock === 0 ? (
+        {product.countInStock === 0 ? (
           <Button variant="light" disable={true}>
             Out of stock
           </Button>
